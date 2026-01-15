@@ -3,17 +3,17 @@ pipeline {
     stages {
         stage('Checkout Code') {
             steps {
-                git branch: 'main', poll: false, url: 'https://github.com/Divyanshu-ai-coder/demo'
+                git branch: 'main', poll: false, url: 'https://github.com/Divyanshu-ai-coder/demo.git'
             }
         }
 
         stage('Build and Push Images') {
             steps {
                 script {
-                    sh 'docker build -t Divyanshu-ai-coder/react-app1 .'
+                    sh 'docker build -t devus007/react-app1 .'
                     withCredentials([usernamePassword(credentialsId: 'docker-hub', passwordVariable: 'ay_pass', usernameVariable: 'ay_user')]) {
                         sh 'docker login -u $ay_user -p $ay_pass'
-                        sh 'docker push Divyanshu-ai-coder/react-app1 '
+                        sh 'docker push devus007/react-app1 '
                     }
                 }
             }
@@ -23,7 +23,7 @@ pipeline {
             steps {
                 script {
                     sh 'docker rm -f  react-app1'
-                    sh 'docker run -d --name my-react-app2 -p 1155:80 Divyanshu-ai-coder/react-app1'
+                    sh 'docker run -d --name my-react-app2 -p 1155:80 devus007/react-app1'
                 }
             }
         }
